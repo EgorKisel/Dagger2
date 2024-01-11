@@ -28,6 +28,8 @@ class MainActivity : BaseActivity<MainViewModel>() {
         deps
         viewModel.test()
 
+        (applicationContext as MainApp).appComponent.inject(this)
+
         val viewModel2 = secondViewModelFactory.create("123")
     }
 }
