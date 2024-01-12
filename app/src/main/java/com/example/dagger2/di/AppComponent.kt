@@ -1,53 +1,36 @@
 package com.example.dagger2.di
 
 import android.content.Context
+import com.example.dagger2.core.DependenciesProvider
 import com.example.dagger2.MainActivity
+import com.example.dagger2.core.NetworkProvider
+import com.example.dagger2.network.NetworkComponent
 import dagger.BindsInstance
 import dagger.Component
-import javax.inject.Qualifier
 
-@Component(modules = [MainModule::class])
-interface AppComponent {
+@Component(
+    modules = [MainModule::class],
+    dependencies = [NetworkProvider::class]
+)
+interface AppComponent : DependenciesProvider {
 
     companion object {
         fun create(
             context: Context,
-            appId: String,
-            apiKey: String,
         ): AppComponent {
+            val networkProvider = NetworkComponent.create()
             return DaggerAppComponent
-                //Первый способ передачи контекста через фабрику
-                .factory().create(context, appId, apiKey)
-
-            // второй способ
-//                .builder()
-//                .context(context)
-//                .build()
+                .factory().create(context, networkProvider)
         }
     }
-    //Второй способ передачи контекста через билдер
-//    @Component.Builder
-//    interface Builder{
-//        @BindsInstance
-//        fun context(context: Context): Builder
-//        fun build(): AppComponent
-//    }
 
-    //Первый способ передачи контекста через фабрику
     @Component.Factory
     interface Factory {
         fun create(
             @BindsInstance context: Context,
-            @BindsInstance @AppId appId: String,
-            @BindsInstance @ApiKey apiKey: String,
+            networkProvider: NetworkProvider,
         ): AppComponent
     }
 
     fun inject(mainActivity: MainActivity)
 }
-
-@Qualifier
-annotation class ApiKey
-
-@Qualifier
-annotation class AppId

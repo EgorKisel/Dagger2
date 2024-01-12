@@ -1,4 +1,4 @@
-package com.example.dagger2
+package com.example.dagger2.core.baseapp
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
