@@ -17,7 +17,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         super.onViewCreated(view, savedInstanceState)
         val dependenciesProvider =
             (requireActivity().applicationContext as App).getDependencyProvider()
-        MainComponent.create(dependenciesProvider).inject(this)
+        MainComponent.create(dependenciesProvider).dependentComponent.inject(this)
         val viewModel =
             ViewModelProvider(this, viewModelsFactory)[MainViewModel::class.java]
     }

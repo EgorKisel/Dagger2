@@ -4,6 +4,7 @@ import com.example.dagger2.core.DependenciesProvider
 import com.example.dagger2.core.di.ViewModelsModule
 import com.example.dagger2.features.main.presentation.MainFragment
 import dagger.Component
+import dagger.Subcomponent
 
 @Component(
     dependencies = [DependenciesProvider::class],
@@ -13,6 +14,8 @@ import dagger.Component
     ]
 )
 interface MainComponent {
+
+    val dependentComponent: DependentComponent
 
     companion object {
         fun create(dependenciesProvider: DependenciesProvider): MainComponent {
@@ -26,6 +29,10 @@ interface MainComponent {
             dependenciesProvider: DependenciesProvider,
         ): MainComponent
     }
+}
+
+@Subcomponent
+interface DependentComponent {
 
     fun inject(mainFragment: MainFragment)
 }
